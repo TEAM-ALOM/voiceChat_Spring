@@ -31,10 +31,28 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.integration:spring-integration-http'
 	implementation 'org.springframework.integration:spring-integration-security'
+
+	//jwt
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+	// mapstruct
+	implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.4.2.Final'
+
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+
+	implementation 'org.webjars:sockjs-client:1.5.1'
+// stomp
+	implementation 'org.webjars:stomp-websocket:2.3.4'
+// gson
+	implementation 'com.google.code.gson:gson:2.9.0'
+	implementation 'io.micrometer:micrometer-core:1.8.0'
 	implementation 'org.springframework.integration:spring-integration-stomp'
 	implementation 'org.springframework.integration:spring-integration-websocket'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	implementation group: 'org.kurento', name: 'kurento-client', version: '6.18.0'
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'

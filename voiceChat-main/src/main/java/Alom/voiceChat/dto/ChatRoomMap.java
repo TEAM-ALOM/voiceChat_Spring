@@ -1,17 +1,18 @@
-package Alom.voiceChat.utils;
+package Alom.voiceChat.dto;
 
-import Arom.voiceChat.dto.ChatRoomDto;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @Getter
 @Setter
 public class ChatRoomMap {
     private static ChatRoomMap chatRoomMap = new ChatRoomMap();
-    private Map<String, ChatRoomDto> chatRooms =new LinkedHashMap<>();
+    private ConcurrentMap<String, ChatRoomDto> chatRooms = new ConcurrentHashMap<>();
 
     private ChatRoomMap(){}
 
