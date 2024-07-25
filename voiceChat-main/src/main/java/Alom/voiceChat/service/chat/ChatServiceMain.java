@@ -1,5 +1,7 @@
-package Alom.voiceChat.service;
+package Alom.voiceChat.service.chat;
 
+import Alom.voiceChat.dto.ChatRoomDto;
+import Alom.voiceChat.dto.ChatRoomMap;
 import Arom.voiceChat.dto.ChatRoomDto;
 import Arom.voiceChat.utils.ChatRoomMap;
 import lombok.Getter;
@@ -70,6 +72,25 @@ public class ChatServiceMain {
         if (room.getMaxUserCnt()+1 > room.getMaxUserCnt()){
             return false;
         }
+        return true;
+    }
+    public void delChatRoom(String roomId){
+
+        try {
+            // 채팅방 타입에 따라서 단순히 채팅방만 삭제할지 업로드된 파일도 삭제할지 결정
+            ChatRoomMap.getInstance().getChatRooms().remove(roomId);
+
+            if (ChatRoomMap.getInstance().getChatRooms().get(roomId).getChatType().equals(ChatRoomDto.ChatType.MSG)) { // MSG 채팅방은 사진도 추가 삭제
+                // 채팅방 안에 있는 파일 삭제
+                fileService.deleteFileDir(roomId);
+            }
+
+            log.info("삭제 완료 roomId : {}", roomId);
+
+        } catch (Exception e) { // 만약에 예외 발생시 확인하기 위해서 try catch
+            System.out.println(e.getMessage());
+        }
+
     }
 
 }

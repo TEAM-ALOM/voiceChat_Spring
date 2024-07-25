@@ -1,13 +1,17 @@
 package Alom.voiceChat.dto;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ChatRoomDto {
     @NotNull
     private String roomId;
@@ -18,5 +22,7 @@ public class ChatRoomDto {
     private String roomPassword;
     private boolean isPrivate;
 
-    private Map<String ,?> userList;
+    private ChatType chatType;
+
+    public ConcurrentMap<String ,?> userList= new ConcurrentHashMap<>();
 }
