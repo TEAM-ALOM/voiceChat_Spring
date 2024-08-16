@@ -29,4 +29,8 @@ public class FriendRequest {
     private boolean acceptedByRequester;
     private boolean acceptedByReceiver;
 
+    public boolean isAccepted(){
+        return acceptedByReceiver&&acceptedByRequester;
+    }
+
 }

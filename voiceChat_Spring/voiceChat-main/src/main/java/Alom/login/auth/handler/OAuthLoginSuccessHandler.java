@@ -76,6 +76,7 @@ public class OAuthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                     .userProvider(provider)
                     .userProviderId(providerId)
                     .build();
+            setDefaultTargetUrl("/create/user");
         }
         else{
             log.info("기존 유저입니다.");

@@ -6,11 +6,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
@@ -45,9 +48,8 @@ public class User {
     @Column(name = "user_update_date",nullable = false,length = 20)
     private LocalDateTime userUpdateDate;
 
-    @Lob
-    @Column(columnDefinition = "BLOB")
-    private byte[] userIcon;
+    @Column(name = "user_icon_path",nullable = true)
+    private String userIconPath;
 
     @Column(nullable = true)
     private String userMent;

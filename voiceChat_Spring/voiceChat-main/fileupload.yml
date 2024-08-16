@@ -1,0 +1,6 @@
+multipart :
+  max-file-size: 10MB
+  max-request-size : 10MB
+  location: /User
+  enabled: true
+com.example.upload.path.profileImg : /User

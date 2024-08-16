@@ -1,31 +1,30 @@
 package Alom.socialService.controller;
 
-import Alom.login.auth.info.GoogleUserInfo;
-import Alom.login.auth.info.KakaoUserInfo;
-import Alom.login.auth.info.NaverUserInfo;
-import Alom.login.auth.info.OAuth2UserInfo;
 import Alom.login.domain.user.User;
 import Alom.login.repository.user.UserRepository;
+import Alom.socialService.dto.FriendInformationDto;
 import Alom.socialService.notification.NotificationService;
+import Alom.socialService.service.FriendListService;
 import Alom.socialService.service.FriendRequestService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static Alom.login.util.GetCurrentUserId.getCurrentUserId;
+
 
 @RestController
 @RequestMapping("/friend")
-public class FriendRequestController {
+public class FriendController {
     private final FriendRequestService friendRequestService;
+    private final FriendListService friendListService;
     private final NotificationService notificationService;
     private final UserRepository userRepository;
 
-    public FriendRequestController(FriendRequestService friendRequestService,NotificationService notificationService,UserRepository userRepository) {
+    public FriendController(FriendRequestService friendRequestService, FriendListService friendListService, NotificationService notificationService, UserRepository userRepository) {
         this.friendRequestService = friendRequestService;
+        this.friendListService = friendListService;
         this.notificationService = notificationService;
         this.userRepository = userRepository;
     }
@@ -56,25 +55,12 @@ public class FriendRequestController {
                 .collect(Collectors.toList());
     }
 
-    private String getCurrentUserId(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof OAuth2User){
-            OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-            String registrationId = oAuth2User.getAttribute("registrationId");
-            OAuth2UserInfo userInfo;
-            if(registrationId.equals("google")){
-                userInfo = new GoogleUserInfo(oAuth2User.getAttributes());
-            } else if (registrationId.equals("kakao")) {
-                userInfo = new KakaoUserInfo(oAuth2User.getAttributes());
-            } else if (registrationId.equals("naver")) {
-                userInfo = new NaverUserInfo(oAuth2User.getAttributes());
-            }else {
-                throw new IllegalArgumentException("Unsupported provider: "+registrationId);
-            }
-            return userInfo.getProviderId();
-        }
-        throw new IllegalArgumentException("Failed to get user information");
+    @GetMapping("/friendList")
+    public List<FriendInformationDto> getFriends(){
+        String currentUserId = getCurrentUserId();
+        return friendListService.getFriendList(currentUserId);
     }
+
     private String getUserNickname(String userId){
         User user = userRepository.findByProviderId(userId);
         return user.getUserNickname();
